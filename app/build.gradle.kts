@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -21,8 +23,18 @@ android {
     }
 
     buildTypes {
+        debug {
+            val apiKey = gradleLocalProperties(rootDir, providers).getProperty("API_KEY")
+            buildConfigField("String", "API_KEY", apiKey)
+        }
+
         release {
-            isMinifyEnabled = false
+            val apiKey = gradleLocalProperties(rootDir, providers).getProperty("API_KEY")
+            buildConfigField("String", "API_KEY", apiKey)
+
+            isMinifyEnabled = true
+            isShrinkResources = true
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -38,6 +50,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"

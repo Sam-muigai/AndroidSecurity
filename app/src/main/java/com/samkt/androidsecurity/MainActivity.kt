@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     Column(
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        Text(text = Constants.API_KEY)
+                        Text(text = "API KEY = ${BuildConfig.API_KEY}")
                     }
                 }
             }
